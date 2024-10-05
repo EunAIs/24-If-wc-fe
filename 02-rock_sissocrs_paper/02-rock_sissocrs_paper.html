@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset */
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            box-sizing: border-box;
+        }
+
+        body,
+        header,
+        div,
+        footer,
+        nav,
+        section,
+        article,
+        aside,
+        figure,
+        ul,
+        ol,
+        li,
+        dl,
+        dt,
+        dd,
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        table,
+        tr,
+        th,
+        td,
+        caption,
+        thead,
+        tbody,
+        tfoot,
+        form,
+        fieldset,
+        address,
+        span,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        body {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.4;
+            background-color: #fff;
+            color: #222;
+        }
+
+        img {
+            border: 0;
+            vertical-align: top;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+    <style>
+        body {
+            font-size: 14px;
+            line-height: 1.6;
+            background-color: #333;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            min-width: 500px;
+        }
+
+        body .wrap {
+            margin: 0 auto;
+            height: auto;
+            background-color: #fff;
+            padding: 20px;
+            width: 50vw;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -60%);
+        }
+
+        header {
+            width: 100%;
+            text-align: center;
+            margin: 30px auto 0;
+        }
+
+        header h1 {
+            margin-bottom: 10px;
+        }
+
+        header nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        header nav ul li {
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        header nav ul li:hover {
+            font-weight: 600;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .content {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .content .cnt {
+            justify-content: center;
+            gap: 50px;
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .content .chose .title {
+            margin-bottom: 20px;
+        }
+
+        .content .chose .btn_list {
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .content .chose .btn_list li {
+            width: 30%;
+        }
+
+        .content .chose .btn_list li button {
+            width: 100%;
+            border: none;
+            background-color: #fff;
+            border: 1px solid paleturquoise;
+            padding: 10px 20px;
+            line-height: 1;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        .content .chose .btn_list li button:hover {
+            background-color: paleturquoise;
+        }
+
+        .content .chose .result {
+            margin-top: 10px;
+        }
+
+        .content .chose .totalResult {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            let totalCnt = 0;
+            let userScore = 0;
+            let computersScore = 0;
+            let rsp = ['rock', 'scissors', 'paper'];
+            let btnList = Array.from(document.getElementsByClassName('btn_list')[0].children);
+            btnList.forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    if (totalCnt < 10) {
+                        totalCnt += 1;
+                        document.getElementsByClassName('restCnt')[0].innerHTML = 10 - totalCnt;
+
+                        let users = e.target.dataset.chosen;
+                        let computers = rsp[Math.floor(Math.random() * 3) + 0];
+
+                        //승패여부 판정
+                        let result
+                        if (users === computers) {
+                            result = '무승부';
+                        } else if (users === 'rock') {
+                            computers === 'scissors' ?  result = '플레이어 승' : result = '컴퓨터 승';
+                        } else if (users === 'scissors') {
+                            computers === 'rock' ? result = '컴퓨터 승' : result = '플레이어 승';
+                        } else if (users === 'paper') {
+                            computers === 'rock' ? result = '플레이어 승' : result = '컴퓨터 승';
+                        }
+
+                        //승패여부 출력
+                        if (result === '플레이어 승') {
+                            userScore += 1;
+                            document.getElementsByClassName('userCnt')[0].innerHTML = userScore;
+                        } else if (result === '컴퓨터 승') {
+                            computersScore += 1;
+                            document.getElementsByClassName('computerCnt')[0].innerHTML = computersScore;
+                        }
+                        document.getElementsByClassName('result')[0].innerHTML = result;
+
+                    } else if (totalCnt >= 10) {
+                        document.getElementsByClassName('result')[0].style.display = 'none';
+                        document.getElementsByClassName('restCnt')[0].style.display = 'none';
+                        document.getElementsByClassName('btn_list')[0].style.display = 'none';
+                        document.getElementsByClassName('restCntTxt')[0].style.display = 'none';
+                        document.getElementsByClassName('titleH2')[0].innerHTML = '게임 종료!';
+                        console.log(userScore)
+                        userScore == computersScore ?
+                            document.getElementsByClassName('totalResult')[0].innerHTML = '무승부 !!'
+                        : userScore > computersScore ?
+                            document.getElementsByClassName('totalResult')[0].innerHTML = '유저 승리 !!'
+                        : document.getElementsByClassName('totalResult')[0].innerHTML = '유저 패배 !!'
+                    }
+                })
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <h1>가위 바위 보</h1>
+        </header>
+        <div class="content">
+            <div class="cnt flex">
+                <dl>
+                    <dt>플레이어</dt>
+                    <dd class="userCnt">0</dd>
+                </dl>
+                <dl>
+                    <dt>컴퓨터</dt>
+                    <dd class="computerCnt">0</dd>
+                </dl>
+            </div>
+            <div class="chose">
+                <div class="title">
+                    <h2 class="titleH2">선택하기</h2>
+                    <p class="restCntTxt">남은횟수 : <span class="restCnt">10</span></p>
+                </div>
+                <ul class="btn_list flex">
+                    <li><button data-chosen="rock">바위</button></li>
+                    <li><button data-chosen="scissors">가위</button></li>
+                    <li><button data-chosen="paper">보</button></li>
+                </ul>
+                <p class="result"></p>
+                <p class="totalResult"></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

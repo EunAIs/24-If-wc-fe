@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       /* reset */
+       html, body{
+            width:100%; min-height: 100%;
+            box-sizing: border-box;
+        }
+        html *,
+        body *{
+            box-sizing: border-box;
+        }
+        body, header, div, footer, nav, section, article, aside, figure,
+        ul, ol, li, dl, dt, dd, p, h1, h2, h3, h4, h5, h6,
+        table, tr, th, td, caption, thead, tbody, tfoot, form, fieldset, address,
+        span, p{
+            margin:0;
+            padding:0;
+        }
+        li{list-style:none;}
+        a{text-decoration: none; color:#fff;}
+        body{
+            font-size:14px;
+            font-weight:  normal;
+            line-height: 1.4;
+            background-color: #fff;
+            color:#222;
+        }
+        img{
+            border:0; vertical-align: top; max-width:100%; height:auto;
+        }
+    </style>
+    <style>
+        body{
+            font-size: 14px;
+            line-height: 1.6;
+            background-color: #333;
+            padding: 60px;
+            min-width: 500px;
+        }
+        body .wrap{
+            margin: 0 auto;
+            height: auto;
+            background-color: #fff;
+            padding: 20px;
+        }
+        header{
+            width: 100%;
+            text-align: center;
+            margin: 30px auto 0;
+        }
+        header h1{
+            margin-bottom: 10px;
+        }
+        header nav ul{
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        header nav ul li{
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        header nav ul li:hover{
+            font-weight: 600;
+        }
+        .content{
+            padding: 30px;
+        }
+        .content .category_list{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .content .category_list li{
+            display: none;
+            border: 1px solid gray;
+            padding: 15px;
+            justify-content: space-between;
+        }
+        .content .category_list.all li{
+            display: flex !important;
+        }
+        .content .category_list li .photo{
+            width: 200px;
+            height: 200px;
+            background-color: #eee;
+        } 
+        .content .category_list li .txt_wrap{
+            width: calc(100% - 220px);
+        }
+        .content .category_list li .txt_wrap .top{
+            margin-bottom: 10px;
+        }
+        .content .category_list li .txt_wrap .top .title{
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .content .category_list li .txt_wrap .top .price{
+            font-size: 14px;
+            color: #aaa;
+        }
+        .content .category_list li .txt_wrap .btm p{
+        }
+    </style>
+    <script>
+        let activeMenu = 'All';
+        window.onload  = function() {
+            let menuCate = document.getElementsByClassName('menuCateList');
+            let menuCateList = Array.from(menuCate);
+            menuListSet(activeMenu);
+
+            menuCateList.forEach(function(e){
+                e.addEventListener('click', function(){
+                     activeMenu = e.innerHTML;
+                     menuListSet(activeMenu);
+                })
+            })
+
+            function menuListSet(cateName){
+                let menu = document.getElementsByClassName('category_list')[0].children;
+                let menuList = Array.from(menu);
+                let activeCateName = cateName;
+
+                console.log(activeCateName)
+                menuList.forEach(function(e){
+                    if(e.dataset.category == activeCateName){
+                        e.style.display="flex";
+                        // console.log(activeCateName)
+                        // console.log(e.dataset.category)
+                    } else if(activeCateName === 'All'){
+                        e.style.display="flex";
+                        // console.log('All')
+                    }else{
+                        e.style.display="none"
+                        // console.log(activeCateName)
+                        // console.log(e.dataset.category)
+                    }
+                })
+            }
+
+        }
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <h1>Food Menu</h1>
+            <nav>
+                <ul>
+                    <li class="menuCateList">All</li>
+                    <li class="menuCateList">Breakfast</li>
+                    <li class="menuCateList">Lunch</li>
+                    <li class="menuCateList">Shakes</li>
+                    <li class="menuCateList">Dinner</li>
+                </ul>
+            </nav>
+        </header>
+        <div class="content">
+            <ul class="category_list">
+                <li data-category="Breakfast">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">pancakes</p>
+                            <span class="price">3000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Breakfast">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">country delight</p>
+                            <span class="price">8000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Breakfast">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">bacon overflow</p>
+                            <span class="price">3000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Lunch">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">diner</p>
+                            <span class="price">1000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Lunch">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">egg attack</p>
+                            <span class="price">3000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Lunch">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">americaln classic</p>
+                            <span class="price">4000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Shakes">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">milkshake</p>
+                            <span class="price">2000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Shakes">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">oreo dream</p>
+                            <span class="price">7000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Shakes">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">qurarantine buddy</p>
+                            <span class="price">1000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+                <li data-category="Dinner">
+                    <div class="photo"></div>
+                    <div class="txt_wrap">
+                        <div class="top">
+                            <p class="title">bison steak</p>
+                            <span class="price">2000원</span>
+                        </div>
+                        <div class="btm">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil repellendus repellat exercitationem commodi! Cumque perferendis molestias iste aliquam, nulla, qui reprehenderit ea, sequi eveniet dolorem praesentium aliquid aperiam vel libero!</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

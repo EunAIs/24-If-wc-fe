@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset */
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body,
+        header,
+        div,
+        footer,
+        nav,
+        section,
+        article,
+        aside,
+        figure,
+        ul,
+        ol,
+        li,
+        dl,
+        dt,
+        dd,
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        table,
+        tr,
+        th,
+        td,
+        caption,
+        thead,
+        tbody,
+        tfoot,
+        form,
+        fieldset,
+        address,
+        span,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        body {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.4;
+            background-color: #fff;
+            color: #222;
+        }
+
+        img {
+            border: 0;
+            vertical-align: top;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+    <style>
+        body{
+            font-size: 14px;
+            line-height: 1.6;
+            background-color: #fff;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            min-width: 500px;
+        }
+        body .wrap{
+            margin: 0 auto;
+            height: auto;
+            background-color: #fff;
+            padding: 0;
+        }
+        header{
+            width: 100%;
+            padding: 20px 30px;
+            background-color: cornflowerblue;
+            color: #fff;
+        }
+        header h1{
+        }
+        .flex{
+            display: flex;
+        }
+        .tag_list{
+            width: 100%;
+            gap:10px;
+            margin-bottom: 10px;
+        }
+        .tag_list li{
+            color: #fff;
+            padding: 5px 10px;
+        }
+        .tag_list li:nth-child(1){background-color:lightsalmon;}
+        .tag_list li:nth-child(2){background-color:indianred;}
+        .tag_list li:nth-child(3){background-color:cornflowerblue}
+        .tag_list li:nth-child(4){background-color:cadetblue}
+        .content{
+            padding: 30px;
+        }
+        .content .top,
+        .content .resultArea .profile,
+        .content .resultArea .repoList_wrap{
+            border: 1px solid #ddd;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .content .top h2{
+            font-size: 28px;
+            font-weight: 600;
+        }
+        .content .top p{
+            font-size: 16px;
+            color: #999;
+        }
+        .content .top input{
+            padding: 5px;
+            font-size:14px;
+            border: 1px solid skyblue;
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .content .resultArea .profile{
+            gap: 20px;
+        }
+        .content .resultArea .profile .img{
+            width: 200px;
+            height: auto;
+            border: 1px solid #ddd;
+        }
+        .content .resultArea .profile .viewProfile{
+            background-color: cornflowerblue;
+            color: #fff;
+            width: 100%;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .content .resultArea .profile .right{
+            width: calc(100% - 202px);
+        }
+        .content .resultArea .desc_list li{
+            font-size: 16px;
+            border-bottom: 1px solid #ddd;
+            padding : 5px 0;
+            color: #333;
+            line-height: 2;
+        }
+        .content .resultArea .desc_list li:last-child{
+            border-bottom: 1px solid transparent;
+        }
+        .content .resultArea .repoList_wrap h3{
+            font-size: 24px;
+            margin-bottom: 20px;
+        } 
+        .content .resultArea .repoItem{
+            justify-content: space-between;
+            width: 100%;
+        }
+        .content .resultArea .repoItem a{
+            font-size: 16px;
+            color: cornflowerblue;
+            font-weight: 600;
+        }
+        .content .resultArea .repoItem .tag_list{
+            width: auto;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            fetch('https://api.github.com/rate_limit')
+            .then(response => response.json())
+            .then(data => {
+                const remaining = data.rate.remaining;
+                const resetTime = new Date(data.rate.reset * 1000);
+                console.log(`남은 요청 횟수: ${remaining}`);
+                console.log(`리셋 시간: ${resetTime}`);
+            });
+                
+            async function getUserProfileAndRepos(username) {
+                const profileUrl = `https://api.github.com/users/${username}`;
+                const reposUrl = `https://api.github.com/users/${username}/repos`;
+
+                try {
+                    // repos 와 profile 요청
+                    const [profileResponse, reposResponse] = await Promise.all([
+                        fetch(profileUrl),
+                        fetch(reposUrl)
+                    ]);
+
+                    // 응답
+                    if (profileResponse.ok && reposResponse.ok) {
+                        const profileData = await profileResponse.json();
+                        const reposData = await reposResponse.json();
+
+                        //화면 출력
+                            document.getElementById('img').src = profileData.avatar_url;
+                            document.getElementById('publicRepos').textContent = profileData.public_repos;
+                            document.getElementById('publicGists').textContent = profileData.public_gists;
+                            document.getElementById('followers').textContent = profileData.followers;
+                            document.getElementById('following').textContent = profileData.following;
+                            document.getElementById('company').textContent = profileData.company;
+                            document.getElementById('website').textContent = profileData.blog || ' ';
+                            document.getElementById('location').textContent = profileData.location || ' ';
+                            document.getElementById('since').textContent = new Date(profileData.created_at).toLocaleDateString();
+                            document.getElementById('viewProfile').href = profileData.html_url;
+
+                            let repoList = document.querySelector('.repoList');
+                            repoList.innerHTML = '';  // 기존 목록 초기화
+                            reposData.forEach(repo => {
+                                let repoItem = document.createElement('li');
+                                repoItem.classList.add('repoItem');
+                                repoItem.classList.add('flex');
+                                repoItem.innerHTML = `
+                                    <a target="_blank" href="${repo.html_url}">${repo.name || ''}</a>
+                                    <ul class="tag_list flex">
+                                        <li>Stars: ${repo.stargazers_count}</li>
+                                        <li>Watchers: ${repo.watchers_count}</li>
+                                        <li>Forks: ${repo.forks_count || 0}</li>
+                                    </ul>
+                                `;
+                                repoList.appendChild(repoItem);
+                            });
+                       
+                    } else {
+                    console.error('실패');
+                    }
+                } catch (error) {
+                    console.error('에러:', error);
+                }
+            }
+
+            let searchInput = document.getElementById('searchWord');
+            searchInput.addEventListener('input', function(e){
+                let searchWord = document.getElementById('searchWord').value;
+                getUserProfileAndRepos(searchWord);
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <h1>GitHub Finder</h1>
+        </header>
+        <div class="content">
+            <div class="top">
+                <h2>Search GitHub Users</h2>
+                <p>Enter a username to fetch a user profile and repos</p>
+                <div class="input_wrap">
+                    <input type="text" id="searchWord">
+                </div>
+            </div>
+            <div class="resultArea">
+                <div class="profile flex">
+                    <div class="left">
+                        <div class="img">
+                            <img src="" alt="" id="img">
+                        </div>
+                        <a class="viewProfile" id="viewProfile" href="" target="_blank">View Profile</a>
+                    </div>
+                    <div class="right">
+                        <ul class="tag_list flex">
+                            <li>Public Repos: <span id="publicRepos"></span></li>
+                            <li>Public Gists: <span id="publicGists"></span></li>
+                            <li>Followers: <span id="followers"></span></li>
+                            <li>Following: <span id="following"></span></li>
+                        </ul>
+                        <ul class="desc_list">
+                            <li>Company: <span id="company"></span></li>
+                            <li>Website/Blog: <span id="website"></span></li>
+                            <li>Location: <span id="location"></span></li>
+                            <li>Member Since: <span id="since"></span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="repoList_wrap">
+                    <h3 class="repoTitle">Latest Repos</h3>
+                    <ul class="repoList"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

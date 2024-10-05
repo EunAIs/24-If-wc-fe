@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* reset */
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body,
+        header,
+        div,
+        footer,
+        nav,
+        section,
+        article,
+        aside,
+        figure,
+        ul,
+        ol,
+        li,
+        dl,
+        dt,
+        dd,
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        table,
+        tr,
+        th,
+        td,
+        caption,
+        thead,
+        tbody,
+        tfoot,
+        form,
+        fieldset,
+        address,
+        span,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        body {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.4;
+            background-color: #fff;
+            color: #222;
+        }
+
+        img {
+            border: 0;
+            vertical-align: top;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+    <style>
+        body {
+            font-size: 14px;
+            line-height: 1.6;
+            background-color: #333;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            min-width: 500px;
+        }
+        .wrong,
+        .red {
+            background-color: red !important;
+            border-color: red !important;
+        }
+        .right,
+        .green {
+            background-color: green !important;
+            border-color: green !important;
+        }
+        body .wrap{
+            margin: 0 auto;
+            height: auto;
+            background-color: #fff;
+            padding: 20px;
+            width: 50vw;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -60%);
+            text-align: center;
+        }
+        header{
+            width: 100%;
+            text-align: center;
+            margin: 30px auto 0;
+        }
+        header h1{
+            margin-bottom: 10px;
+        }
+        header nav ul{
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        header nav ul li{
+            font-size: 14px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        header nav ul li:hover{
+            font-weight: 600;
+        }
+        .flex{
+            display: flex;
+        }
+        .content{
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        .content .question_wrap .question{
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .content .chose .title{
+            margin-bottom: 20px;
+        }
+        .content .chose .btn_list{
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .content .chose .btn_list li{
+            width: 30%;
+        }
+        .content .chose .btn_list li button{
+            width: 100%;
+            border: none;
+            background-color: #fff;
+            border: 1px solid #333;
+            padding: 10px 0;
+            text-align: center;
+            min-height: 36px;
+            line-height: 1;
+            cursor: pointer;
+            transition: all .3s;
+        }
+        .content .next:hover,
+        .content .chose .btn_list li button:hover{
+            background-color: #333;
+            color: #fff;
+        }
+        .content .next{
+            margin-top: 20px;
+            background-color: #fff;
+            border: 1px solid #333;
+            width: 100%;
+            min-height: 36px;
+            cursor: pointer;
+            transition: all .3s;
+        }
+        .restart{
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            display: block;
+            border: none;
+            height: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            //문제세팅
+            let questionList = {
+                ques1: [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)],
+                ques2: [Math.floor(Math.random() * 30), Math.floor(Math.random() * 30), Math.floor(Math.random() * 30)]
+            }
+            let answList = {
+                ans1: [],
+                ans2: [Math.floor(Math.random() * 60), Math.floor(Math.random() * 60), Math.floor(Math.random() * 60)],
+            }
+            let index = 0;
+            questionList.ques1.forEach(function (e) {
+                answList.ans1[index] = e + questionList.ques2[index];
+                index += 1;
+            })
+
+            //최초 html 출력
+            document.getElementsByClassName('quesdtion_wrap')[0];
+            document.getElementsByClassName('chose')[0];
+            let next = document.getElementsByClassName('next')[0];
+            next.style.display = 'none';
+            let restart = document.getElementsByClassName('restart')[0];
+            restart.style.display = 'none';
+            let questionP = document.getElementsByClassName('question')[0];
+            let questionTxt;
+            let btn = Array.from(document.getElementsByClassName('ans'));
+            let btn3 = document.getElementsByClassName('ans3')[0];
+
+            let index2 = 0;
+            questionTxt = questionList.ques1[index2] + '+' + questionList.ques2[index2] 
+            questionP.innerHTML = questionTxt;
+
+            let isIndex = Math.floor(Math.random() * 3) + 0;
+            if (isIndex == 2) {
+                btn[1].innerHTML = questionList.ques1[index2] + Math.floor(Math.random() * 10);
+                btn[0].innerHTML = questionList.ques2[index2] + Math.floor(Math.random() * 10);
+            } else {
+                //정답
+                btn[isIndex].innerHTML = Number(questionList.ques1[index2] + questionList.ques2[index2]);
+                //다른버튼엔 오답
+                if (isIndex == 0) {
+                    btn[1].innerHTML = Math.floor(Math.random() * 10);
+                } else if (isIndex == 1) {
+                    btn[0].innerHTML = Math.floor(Math.random() * 10);
+                }
+            }
+
+            //버튼 클릭시
+            let chosenVal
+            btn.forEach(function(ele){
+                ele.addEventListener('click', function(e){
+                    console.log(isIndex)
+                    //정답여부 판별
+                    chosenVal = e.target.innerText;
+                    if(chosenVal == questionList.ques1[index2] + questionList.ques2[index2] ){
+                        document.getElementsByTagName('body')[0].classList = 'right';
+                        btn.forEach(function(Esibling){
+                            Esibling.classList = 'red'
+                        });
+                        e.target.classList = 'green'
+                    } else if (isIndex === 2 && String(chosenVal) === '정답없음'){
+                        document.getElementsByTagName('body')[0].classList = 'right';
+                        btn.forEach(function(Esibling){
+                            Esibling.classList = 'red'
+                        });
+                        e.target.classList = 'green'
+                    }else {
+                        document.getElementsByTagName('body')[0].classList = 'wrong';
+                        btn.forEach(function(Esibling){
+                            Esibling.classList = 'red'
+                        });
+                        e.target.classList = 'green'
+                    }
+                    next.style.display = 'block';
+                })
+            })
+            next.addEventListener('click', function(){
+                    document.getElementsByTagName('body')[0].classList = '';
+                    next.style.display = 'none';
+                    btn.forEach(function(e){
+                        e.classList = ''
+                    });
+
+                    index2 += 1;
+                    console.log(index2)
+
+                    //새 문제 작성
+                    questionTxt = questionList.ques1[index2] + '+' + questionList.ques2[index2] ;
+                    questionP.innerHTML = questionTxt;
+
+                    if(index2 >= 3){
+                        document.getElementsByClassName('question_wrap')[0].style.display = 'none';
+                        restart.style.display = 'block';
+                    } else {
+                        //정답이 몇번째 선택지가 될 것인가
+                        isIndex = Math.floor(Math.random() * 3) + 0;
+
+                        if (isIndex == 2) {
+                            //정답없음
+                            btn[0].innerHTML = questionList.ques2[index2] + Math.floor(Math.random() * 10);
+                            btn[1].innerHTML = questionList.ques1[index2] + Math.floor(Math.random() * 10);
+                        } else {
+                            //정답
+                            btn[isIndex].innerHTML = questionList.ques1[index2] + questionList.ques2[index2];
+                            if (isIndex == 0) {
+                                //오답
+                                btn[1].innerHTML = questionList.ques1[index2] + Math.floor(Math.random() * 10);
+                            } else if (isIndex == 1) {
+                                //오답
+                                btn[0].innerHTML = questionList.ques1[index2] + Math.floor(Math.random() * 10);
+                            }
+                        }
+                    }
+                })
+
+        }
+    </script>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="content">
+            <div class="question_wrap">
+                <p class="question">4+2?</p>
+                <div class="chose">
+                    <ul class="btn_list flex">
+                        <li>
+                            <button class="ans ans1">4</button>
+                        </li>
+                        <li>
+                            <button class="ans ans2">6</button>
+                        </li>
+                        <li>
+                            <button class="ans ans3">정답없음</button>
+                        </li>
+                    </ul>
+                </div>
+                <button class="next">다음문제</button>
+            </div>
+            <button class="restart" onClick="window.location.reload()">Restart</button>
+        </div>
+    </div>
+</body>
+
+</html>
