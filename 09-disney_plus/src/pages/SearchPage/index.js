@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "../../api/axios";
 import "./SearchPage.css";
 import MovieModal from "../../components/MovieModal";
 
 export default function SearchPage() {
-  const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [movieSelected, setMovieSelected] = useState({});
