@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>타이핑 스피드 측정</title>
+    <style>
+        /* 사용자가 작성한 CSS가 여기에 포함됩니다. */
+        /* ... (CSS 코드 생략) ... */
+        
+        .green {
+            color: green;
+        }
+
+        
+        #finalWPM, #finalCPM {
+            display: none;
+        }
+        #exSentence, #typing {
+            display: block;
+        }
+
+        body #progress li:nth-of-type(1),
+        body #progress li:nth-of-type(2){
+            display: none;
+        }
+
+        body.end #progress li:nth-of-type(1),
+        body.end #progress li:nth-of-type(2){
+            display: block;
+        }
+        body.end .input_wrap{display: none;}
+    </style>
+     <script>
+        window.onload = function () {
+            //element들
+            const typingInput = document.getElementById("typing");
+            const exSentence = document.getElementById("exSentence");
+            const wpmElement = document.getElementById("finalWPM");
+            const cpmElement = document.getElementById("finalCPM");
+            const errorElement = document.getElementById("err");
+            const timeElement = document.getElementById("time");
+            const accuracyElement = document.getElementById("accuracy");
+
+            //최종때 계산을 위해 별도로 담아두어야함
+            let totalError = 0;
+            let totalAccuracy = 0;
+
+            //예문
+            let sentences = [
+                "Lorem ipsum dolor sit amet1",
+                "Lorem ipsum dolor sit amet2",
+                "Lorem ipsum dolor sit amet3",
+                "Lorem ipsum dolor sit amet4",
+                "Lorem ipsum dolor sit amet5"
+            ];
+            let currentIndex = 0; //지금 몇번째 문장인지
+            let startTime = 60; //시간
+            let restTime = 0;
+            let errors = 0; //오타 수
+            
+            // 문장 표시
+            function displaySentence() {
+                exSentence.textContent = sentences[currentIndex];
+                typingInput.value = "";
+                typingInput.focus();
+            }
+
+            // 첫 문장 표시 타이핑 시작 시 호출
+            typingInput.addEventListener('focus', displaySentence());
+
+            let isTime = false;
+            // 최초 시작시 타이머 시작 되었는가?
+            function setTime(){
+                setInterval(function(){
+                    if(startTime > 0 && !isEnd){
+                        startTime -= 1;
+                        timeElement.textContent = startTime;
+                        restTime += 1;
+                    } else{
+                         clearInterval(setTime())
+                    }
+                }, 1000);
+            }
+
+            let isEnd = false;
+            // 예문 타이핑 종료 되었는가?
+
+            typingInput.addEventListener("input", function () {
+                //최초입력이라면 시간 셈
+                if(!isTime){
+                    setTime();
+                    isTime = true
+                } 
+
+                let userInput = Array.from(typingInput.value); //값 실시간 받기
+                let currentSentence = sentences[currentIndex].split(''); //현재 보고있는 예문의 배열화
+
+                // 한 예문 내 에러 초기화 및 에러여부 판별
+                errors = 0;
+                errorElement.textContent = errors;
+                for(let i = 0; i < userInput.length; i++){
+                    if(userInput[i] === currentSentence[i]){}else{
+                        errors += 1 ;
+                        errorElement.textContent = errors;
+                    }
+                }
+
+                // 글자 색상 변경
+                exSentence.innerHTML = currentSentence.map((char, index) => {
+                    return `<span class="${index < userInput.length && char === userInput[index] ? 'green' : ''}">${char}</span>`;
+                }).join("");
+
+                //정확도 계산 실시간 업데이트
+                let accuracy = 100 - ((errors / userInput.length) * 100);
+                accuracyElement.textContent = accuracy.toFixed(2);
+
+
+                // 문장을 모두 입력하면 다음 문장 표시
+                // 무조건 글자단위 
+                if (userInput.length === currentSentence.length) {
+                    currentIndex++;
+                    if (currentIndex < sentences.length) {
+                        console.log('notyet')
+                        totalAccuracy += accuracy;
+                        totalError += errors;
+                        displaySentence();
+                    } else {
+                        totalAccuracy += accuracy;
+                        totalError += errors;
+
+                        console.log('예문 입력 종료')
+                        isEnd = true;
+
+                        // 최종 WPM(word per min) 및 CPM(characters per min)
+                        //입력한 총 글자 수
+                        let allSentenceChar = [];
+                        sentences.forEach(function(e){
+                            allSentenceChar = [...allSentenceChar, ...e.split('')];
+                        })
+                        const finalWPM = Math.floor(((allSentenceChar.length - totalError / 5) / (60 - startTime)) * 60)
+                        const finalCPM = Math.floor((allSentenceChar.length - totalError) / (60 - startTime) * 60);
+
+                        wpmElement.textContent = finalWPM;
+                        cpmElement.textContent = finalCPM;
+
+                        wpmElement.style.display = "inline";
+                        cpmElement.style.display = "inline";
+                        
+                        totalAccuracy = totalAccuracy / sentences.length;
+                        
+                        exSentence.textContent = '';
+                        errorElement.textContent = totalError;
+                        accuracyElement.textContent = totalAccuracy.toFixed(2);
+                        document.getElementsByTagName('body')[0].classList = 'end';
+
+
+                    }
+                }
+                // } else if(isEnd){
+                //     //정확도 0일때만 실행됨 엥
+                //     console.log('end2')
+                //     //WPM 입력
+                //     //CPM 입력
+                    
+                //     //total Error 수
+                //     console.log(totalError)
+                //     errorElement.textContent = totalError 
+
+
+                //     //total Accuracy 평균 수
+                //     console.log(totalAccuracy)
+
+                //     let totalSentences = [];
+                //     console.log(sentences.length)
+                //     for(let i = 0; i < sentences.length; i++){}
+                //     //senteces 의 각 요소들을 split해서 새로 담을 배열 필요
+                    
+                //     accuracyElement.textContent = totalAccuracy / totalSentences
+                //     document.getElementsByTagName('body')[0].classList = 'end'
+                // }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="wrap">
+        <div class="content">
+            <div class="top">
+                <h2>타이핑 스피드 측정</h2>
+                <ul id="progress">
+                    <li class="finalWPM">WPM <span id="finalWPM">0</span></li>
+                    <li class="finalCPM">CPM <span id="finalCPM">0</span></li>
+                    <li>Errors<span id="err">0</span></li>
+                    <li>Time<span id="time">60s</span></li>
+                    <li>Accuracy <span id="accuracy">100</span>%</li>
+                </ul>
+            </div>
+            <div class="mid">
+                <p id="exSentence">아래를 클릭하면 이곳에 예문이 뜹니다.</p>
+            </div>
+            <div class="btm">
+                <div class="input_wrap">
+                    <input type="text" id="typing" placeholder="이곳에 타이핑을 하세요">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

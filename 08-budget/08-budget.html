@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>예산 계산기</title>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        body,
+        body * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ddd;
+            box-sizing: border-box;
+            padding: 30px;
+        }
+
+        header {
+            display: none;
+        }
+
+        .top {
+            background-color: #fff;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .top dl {
+            display: flex;
+            width: 100%;
+            height: 30px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .top dl dt {
+            width: 70px;
+        }
+
+        .top dl dd {
+            width: calc(100% - 70px);
+        }
+
+        .top dl dd input {
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .top button {
+            width: 100%;
+            height: 30px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .btm {
+            background-color: #fff;
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const App = () => {
+            const [name, setName] = React.useState('');
+            const [price, setPrice] = React.useState('');
+            const [items, setItems] = React.useState([]);
+            const [totalPrice, setTotalPrice] = React.useState(0);
+
+            const handleSubmit = () => {
+                if (name && price) {
+                    setItems([...items, { name, price: Number(price) }]);
+                    setTotalPrice((prev) => prev + Number(price));
+                    setName('');
+                    setPrice('');
+                }
+            };
+
+            const delLi = (index) => {
+                const itemToDelete = items[index];
+                setItems(items.filter((_, i) => i !== index));
+                setTotalPrice((prev) => prev - itemToDelete.price);
+            };
+
+            const editLi = (index) => {
+                const itemToEdit = items[index];
+                setName(itemToEdit.name);
+                setPrice(itemToEdit.price);
+                delLi(index);
+            };
+
+            return (
+                <div className="wrap">
+                    <header>
+                        <h1>예산 계산기</h1>
+                    </header>
+                    <div className="content">
+                        <div className="top">
+                            <div className="top_inner">
+                                <dl className="name">
+                                    <dt>항목: </dt>
+                                    <dd>
+                                        <input
+                                            id="name"
+                                            type="text"
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                        />
+                                    </dd>
+                                </dl>
+                                <dl className="price">
+                                    <dt>금액: </dt>
+                                    <dd>
+                                        <input
+                                            id="price"
+                                            type="number"
+                                            value={price}
+                                            onChange={(e) => setPrice(e.target.value)}
+                                        />
+                                    </dd>
+                                </dl>
+                            </div>
+                            <button onClick={handleSubmit}>제출</button>
+                        </div>
+                        <div className="btm">
+                            <div className="list">
+                                <ul>
+                                    {items.map((item, index) => (
+                                        <li key={index}>
+                                            <p>{item.name}</p>
+                                            <p>{item.price}</p>
+                                            <div>
+                                                <button onClick={() => editLi(index)}>수정</button>
+                                                <button onClick={() => delLi(index)}>삭제</button>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                            <button onClick={() => {
+                                setItems([]);
+                                setTotalPrice(0);
+                            }}>전체 지우기</button>
+                        </div>
+                        <p className="totalPrice">총 금액: {totalPrice}</p>
+                    </div>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
