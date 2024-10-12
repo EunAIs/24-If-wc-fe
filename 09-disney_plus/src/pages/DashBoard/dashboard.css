@@ -1,0 +1,33 @@
+.dashboard{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+.dashboard .innerWrap{
+    text-align: center;
+}
+.dashboard h3{
+    font-size:36px;
+    margin-bottom: 50px;
+}
+.dashboard h3 img{
+    max-width: 300px;
+}
+.dashboard button{
+    width: 800px;
+    height: 80px;
+    font-size: 24px;
+    line-height: 50px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+.dashboard p{
+    font-size: 16px;
+}
+.dashboard p span{
+    font-size:12px;
+}
