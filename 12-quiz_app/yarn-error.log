@@ -1,0 +1,49 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\user\.node\corepack\yarn\1.22.15\bin\yarn.js add --exact --cwd C:\Users\user\Desktop\코딩\인강\로드맵\12-quiz_app --dev typescript @types/react @types/node
+
+PATH: 
+  C:\Users\user\Desktop\코딩\인강\로드맵\12-quiz_app\node_modules\.bin;C:\Users\user\Desktop\코딩\인강\로드맵\node_modules\.bin;C:\Users\user\Desktop\코딩\인강\node_modules\.bin;C:\Users\user\Desktop\코딩\node_modules\.bin;C:\Users\user\Desktop\node_modules\.bin;C:\Users\user\node_modules\.bin;C:\Users\node_modules\.bin;C:\node_modules\.bin;C:\Users\user\AppData\Roaming\npm\node_modules\npm\node_modules\@npmcli\run-script\lib\node-gyp-bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files\dotnet\;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Users\user\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\user\AppData\Local\Microsoft\WindowsApps;C:\Windows\nvm;C:\Program Files\nodejs;C:\Users\user\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.15
+
+Node version: 
+  20.18.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, open 'C:\Users\user\AppData\Local\Yarn\Cache\v6\npm-@next-swc-win32-x64-msvc-14.2.15-18d68697002b282006771f8d92d79ade9efd35c4-integrity\node_modules\@next\swc-win32-x64-msvc\.yarn-metadata.json'
+
+npm manifest: 
+  {
+    "name": "12-quiz_app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "next lint"
+    },
+    "dependencies": {
+      "react": "^18",
+      "react-dom": "^18",
+      "next": "14.2.15"
+    },
+    "devDependencies": {
+      "typescript": "^5",
+      "@types/node": "^20",
+      "@types/react": "^18",
+      "@types/react-dom": "^18",
+      "eslint": "^8",
+      "eslint-config-next": "14.2.15"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
